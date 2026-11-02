@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shreyas & Damini — The Wedding Experience</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ivory: '#F8F5EF',
+                        champagne: '#E9DFCC',
+                        gold: '#B69A62',
+                        wine: '#642E3B',
+                        charcoal: '#292723',
+                        sage: '#A6A58B',
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Inter"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #F8F5EF;
+            color: #292723;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Luxury gold corner frame effect */
+        .gold-corner-frame {
+            position: relative;
+        }
+        .gold-corner-frame::before {
+            content: '';
+            position: absolute;
+            top: 4px; left: 4px; right: 4px; bottom: 4px;
+            border: 1px solid rgba(182, 154, 98, 0.35);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Card flip container */
+        .card-perspective {
+            perspective: 1000px;
+        }
+        .card-inner {
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .card-inner.flipped {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+    </style>
+</head>
+<body class="selection:bg-wine selection:text-ivory">
+
+    <!-- ================================================================= -->
+    <!-- 1. INVITATION OPENING GATE (FIRST IMPRESSION) -->
+    <!-- ================================================================= -->
+    <div id="invitationGate" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-ivory overflow-y-auto transition-opacity duration-700">
+        <div class="gold-corner-frame relative w-full max-w-2xl p-8 sm:p-12 border border-gold/60 rounded-xs bg-ivory shadow-2xl text-center space-y-6 my-auto">
+            
+            <div class="absolute top-2 left-2 w-6 h-6 border-t-2 border-l-2 border-gold"></div>
+            <div class="absolute top-2 right-2 w-6 h-6 border-t-2 border-r-2 border-gold"></div>
+            <div class="absolute bottom-2 left-2 w-6 h-6 border-b-2 border-l-2 border-gold"></div>
+            <div class="absolute bottom-2 right-2 w-6 h-6 border-b-2 border-r-2 border-gold"></div>
+
+            <span class="text-[11px] uppercase tracking-[0.3em] text-gold font-semibold block">
+                शुभारम्भ • WITH THE BLESSINGS OF OUR FAMILIES
+            </span>
+
+            <h1 class="font-serif text-4xl sm:text-6xl text-wine font-light leading-tight">
+                Shreyas
+                <span class="block font-serif italic text-2xl sm:text-3xl text-gold my-2">&</span>
+                Damini
+            </h1>
+
+            <p class="font-serif italic text-sm sm:text-base text-charcoal/80 max-w-md mx-auto">
+                "Two souls. Two traditions. One timeless beginning."
+            </p>
+
+            <div class="py-4 border-y border-gold/30 max-w-xs mx-auto">
+                <span class="font-serif text-lg tracking-widest text-wine">
+                    29 JANUARY 2027
+                </span>
+            </div>
+
+            <div class="pt-2">
+                <button 
+                    id="openInvitationBtn"
+                    class="px-8 py-4 bg-wine hover:bg-wine/90 text-ivory text-xs uppercase tracking-[0.25em] font-medium border border-gold shadow-lg transition-all transform hover:-translate-y-0.5 cursor-pointer"
+                >
+                    OPEN THE INVITATION
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- 2. MAIN WEBSITE CONTENT (HIDDEN UNTIL GATE OPENED) -->
+    <!-- ================================================================= -->
+    <div id="mainWebsiteContent" class="hidden relative animate-fade-in">
+
+        <!-- FLOATING CONTROLS (WHATSAPP & MUSIC) -->
+        <div class="fixed bottom-6 right-6 z-40 flex items-center gap-3">
+            <button 
+                onclick="shareWhatsApp()"
+                class="w-12 h-12 bg-[#25D366] hover:bg-[#25D366]/90 text-white rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-105 cursor-pointer"
+                title="Share on WhatsApp"
+            >
+                <i class="fa-brands fa-whatsapp text-xl"></i>
+            </button>
+            <button 
+                id="audioToggleBtn"
+                class="w-12 h-12 bg-wine hover:bg-wine/90 text-ivory border border-gold rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-105 cursor-pointer"
+                title="Toggle Music"
+            >
+                <i id="audioIcon" class="fa-solid fa-volume-high text-gold"></i>
+            </button>
+        </div>
+
+        <!-- HERO SECTION -->
+        <section class="relative min-h-screen flex flex-col items-center justify-center text-center px-4 py-20 bg-charcoal text-ivory overflow-hidden">
+            <img 
+                src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=1200" 
+                alt="Wedding Hero" 
+                class="absolute inset-0 w-full h-full object-cover opacity-40 scale-105 animate-pulse duration-[10000ms]"
+            >
+            <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/50 to-transparent"></div>
+
+            <div class="relative z-20 max-w-3xl space-y-6">
+                <span class="text-xs uppercase tracking-[0.3em] text-gold font-semibold block">
+                    सहधर्मचारिणी • A CELEBRATION OF LOVE & TRADITION
+                </span>
+                <h1 class="font-serif text-5xl sm:text-7xl text-champagne font-light">
+                    Shreyas
+                    <span class="block font-serif italic text-3xl sm:text-4xl text-gold my-3">&</span>
+                    Damini
+                </h1>
+                <p class="text-xs sm:text-sm tracking-[0.2em] uppercase text-ivory/80">
+                    29 JANUARY 2027 • JAIPUR, RAJASTHAN
+                </p>
+            </div>
+        </section>
+
+        <!-- COUPLE INTRODUCTION -->
+        <section id="couple" class="py-24 px-6 md:px-12 max-w-5xl mx-auto text-center">
+            <span class="text-xs uppercase tracking-[0.3em] text-gold font-medium block mb-2">
+                THE BEGINNING OF FOREVER
+            </span>
+            <h2 class="font-serif text-4xl sm:text-5xl text-wine mb-6">
+                Two Families, One Journey
+            </h2>
+            <p class="font-serif italic text-lg sm:text-xl text-charcoal/80 max-w-2xl mx-auto mb-16 leading-relaxed">
+                "With the divine blessings of our ancestors and the loving affection of our families, we joyfully invite you to join us as we celebrate love, tradition and togetherness."
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="gold-corner-frame relative p-6 border border-gold/40 bg-white shadow-xl space-y-4">
+                    <div class="relative w-48 h-64 mx-auto overflow-hidden rounded-xs border border-gold/30">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=800" alt="Groom" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-2xl text-wine">Shreyas Kulkarni</h3>
+                        <p class="text-xs uppercase tracking-widest text-gold mt-1">S/o Smt. Radhika & Shri Anand Kulkarni</p>
+                    </div>
+                </div>
+
+                <div class="gold-corner-frame relative p-6 border border-gold/40 bg-white shadow-xl space-y-4">
+                    <div class="relative w-48 h-64 mx-auto overflow-hidden rounded-xs border border-gold/30">
+                        <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=800" alt="Bride" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-2xl text-wine">Damini Sharma</h3>
+                        <p class="text-xs uppercase tracking-widest text-gold mt-1">D/o Smt. Sunita & Shri Rajesh Sharma</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LIVE COUNTDOWN -->
+        <section class="py-20 px-6 bg-wine text-ivory text-center">
+            <div class="max-w-4xl mx-auto space-y-8">
+                <span class="text-xs uppercase tracking-[0.3em] text-champagne font-medium block">
+                    THE CELEBRATION BEGINS IN
+                </span>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto">
+                    <div class="bg-white/5 border border-gold/30 p-4 rounded-xs">
+                        <span id="timerDays" class="font-serif text-4xl sm:text-6xl text-champagne font-light">00</span>
+                        <span class="text-[10px] sm:text-xs tracking-[0.2em] uppercase text-gold font-medium mt-2 block">DAYS</span>
+                    </div>
+                    <div class="bg-white/5 border border-gold/30 p-4 rounded-xs">
+                        <span id="timerHours" class="font-serif text-4xl sm:text-6xl text-champagne font-light">00</span>
+                        <span class="text-[10px] sm:text-xs tracking-[0.2em] uppercase text-gold font-medium mt-2 block">HOURS</span>
+                    </div>
+                    <div class="bg-white/5 border border-gold/30 p-4 rounded-xs">
+                        <span id="timerMinutes" class="font-serif text-4xl sm:text-6xl text-champagne font-light">00</span>
+                        <span class="text-[10px] sm:text-xs tracking-[0.2em] uppercase text-gold font-medium mt-2 block">MINUTES</span>
+                    </div>
+                    <div class="bg-white/5 border border-gold/30 p-4 rounded-xs">
+                        <span id="timerSeconds" class="font-serif text-4xl sm:text-6xl text-champagne font-light">00</span>
+                        <span class="text-[10px] sm:text-xs tracking-[0.2em] uppercase text-gold font-medium mt-2 block">SECONDS</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- THE ROYAL WEDDING JOURNEY — VERTICAL TIMELINE EVENTS SECTION -->
+        <!-- ================================================================= -->
+        <section id="itinerary" class="py-24 sm:py-28 px-4 sm:px-6 md:px-12 max-w-5xl mx-auto relative bg-gradient-to-b from-[#F8F5EF] via-[#E9DFCC]/20 to-[#F8F5EF]">
+            <div class="text-center mb-12 sm:mb-16 space-y-3">
+                <span class="text-[11px] sm:text-xs uppercase tracking-[0.35em] text-gold font-bold block">
+                    ✨ मङ्गलम् • EIGHT CHAPTERS OF CELEBRATION ✨
+                </span>
+                <h2 class="font-serif text-3xl sm:text-6xl text-wine font-light tracking-wide">
+                    Our Royal Wedding Journey
+                </h2>
+                <p class="font-serif italic text-base sm:text-xl text-charcoal/80 max-w-lg mx-auto px-2">
+                    Eight Events. One Timeless Cinematic Beginning. Tap any card to flip and explore the royal experience!
+                </p>
+                <div class="w-24 h-0.5 bg-gold/50 mx-auto mt-4"></div>
+            </div>
+
+            <!-- Vertical Timeline Container -->
+            <div class="relative">
+                <!-- Continuous Central Golden Line (Adjusted for mobile alignment) -->
+                <div class="absolute left-6 sm:left-1/2 top-4 bottom-4 w-1 bg-gradient-to-b from-gold/10 via-gold to-gold/10 transform -translate-x-1/2 shadow-[0_0_15px_rgba(182,154,98,0.4)]"></div>
+
+                <div id="royalTimelineContainer" class="space-y-12 sm:space-y-16 relative z-10">
+                    <!-- Injected dynamically via JS with background photography & responsive mobile layout -->
+                </div>
+            </div>
+        </section>
+
+        <!-- VENUE SECTION -->
+        <section id="venue" class="py-24 px-6 md:px-12 bg-white/60 border-y border-gold/20 text-center space-y-8">
+            <div class="max-w-4xl mx-auto space-y-4">
+                <span class="text-xs uppercase tracking-[0.3em] text-gold font-medium block">
+                    WHERE WE CELEBRATE
+                </span>
+                <h2 class="font-serif text-4xl sm:text-5xl text-wine">
+                    The Heritage Palace Estate
+                </h2>
+                <p class="text-sm text-charcoal/80 max-w-md mx-auto">
+                    Palace Road, Near Jal Mahal, Jaipur, Rajasthan 302002
+                </p>
+                <div class="pt-2">
+                    <a 
+                        href="https://maps.google.com/?q=Jaipur+Palace" 
+                        target="_blank" 
+                        rel="noreferrer"
+                        class="inline-flex items-center gap-2 bg-wine text-ivory px-6 py-3 text-xs uppercase tracking-widest font-medium rounded-xs border border-gold hover:bg-wine/90 transition-all"
+                    >
+                        <span>OPEN IN GOOGLE MAPS</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-gold"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALLERY SECTION -->
+        <section id="gallery" class="py-24 px-6 md:px-12 max-w-6xl mx-auto">
+            <div class="text-center mb-12 space-y-3">
+                <span class="text-xs uppercase tracking-[0.3em] text-gold font-medium block">
+                    MEMORIES IN FRAMES
+                </span>
+                <h2 class="font-serif text-4xl sm:text-5xl text-wine">
+                    Moments & Portraits
+                </h2>
+            </div>
+
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <div onclick="openLightbox('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1000', 'First Chapter', 'Our Journey')" class="gold-corner-frame cursor-pointer overflow-hidden border border-gold/30 bg-white rounded-xs aspect-[4/5] relative group shadow-md">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1000" alt="First Chapter" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                        <span class="text-white font-serif text-lg">First Chapter</span>
+                    </div>
+                </div>
+                <div onclick="openLightbox('https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=1000', 'Royalty in Simplicity', 'Couple Portraits')" class="gold-corner-frame cursor-pointer overflow-hidden border border-gold/30 bg-white rounded-xs aspect-[4/5] relative group shadow-md">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=1000" alt="Royalty in Simplicity" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                        <span class="text-white font-serif text-lg">Royalty in Simplicity</span>
+                    </div>
+                </div>
+                <div onclick="openLightbox('https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&q=80&w=1000', 'The Craft of Joy', 'Preparations')" class="gold-corner-frame cursor-pointer overflow-hidden border border-gold/30 bg-white rounded-xs aspect-[4/5] relative group shadow-md">
+                    <img src="https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&q=80&w=1000" alt="The Craft of Joy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                        <span class="text-white font-serif text-lg">The Craft of Joy</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="py-20 px-6 bg-charcoal text-ivory text-center space-y-6">
+            <span class="text-xs uppercase tracking-[0.3em] text-gold block">
+                सर्वे भवन्तु सुखिनः • WITH LOVE & GRATITUDE
+            </span>
+            <h2 class="font-serif text-3xl sm:text-4xl text-champagne">
+                Shreyas & Damini
+            </h2>
+            <p class="font-serif text-lg text-gold">
+                29 JANUARY 2027
+            </p>
+        </footer>
+
+        <!-- ================================================================= -->
+        <!-- MODALS -->
+        <!-- ================================================================= -->
+
+        <!-- ATTIRE & VIBE GUIDE MODAL -->
+        <div id="attireModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-charcoal/80 backdrop-blur-sm animate-fade-in">
+            <div class="gold-corner-frame relative w-full max-w-lg bg-ivory p-6 sm:p-8 rounded-xs shadow-2xl border border-gold/50 space-y-5 text-charcoal">
+                <button onclick="closeAttireModal()" class="absolute top-4 right-4 text-wine hover:text-gold text-lg transition-colors cursor-pointer">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+                <div class="space-y-1 text-center border-b border-gold/30 pb-3">
+                    <span id="modalAttireEvent" class="text-[10px] tracking-[0.25em] uppercase text-gold font-bold block">
+                        EVENT ATTIRE GUIDE
+                    </span>
+                    <h3 id="modalAttireTitle" class="font-serif text-2xl text-wine font-light">
+                        Dress Code & Cultural Vibe
+                    </h3>
+                </div>
+
+                <div class="space-y-4 text-xs sm:text-sm">
+                    <div>
+                        <h4 class="font-semibold text-wine uppercase text-[11px] tracking-wider mb-1">
+                            <i class="fa-solid fa-shirt text-gold me-1"></i> Recommended Attire
+                        </h4>
+                        <p id="modalAttireDesc" class="text-charcoal/80 leading-relaxed font-sans"></p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-wine uppercase text-[11px] tracking-wider mb-1">
+                            <i class="fa-solid fa-sparkles text-gold me-1"></i> Ceremony Atmosphere
+                        </h4>
+                        <p id="modalAttireVibe" class="text-charcoal/80 leading-relaxed font-sans"></p>
+                    </div>
+                </div>
+
+                <div class="pt-2 text-center">
+                    <button onclick="closeAttireModal()" class="w-full py-2.5 bg-wine text-ivory text-xs uppercase tracking-widest font-medium border border-gold/40 shadow-sm hover:bg-wine/90 transition-all cursor-pointer">
+                        Understood
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- LIGHTBOX MODAL -->
+        <div id="lightboxModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/90 backdrop-blur-md" onclick="closeLightbox()">
+            <div class="relative max-w-4xl max-h-[90vh] overflow-hidden" onclick="event.stopPropagation()">
+                <button onclick="closeLightbox()" class="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black cursor-pointer">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <img id="lightboxImg" src="" alt="Lightbox" class="max-w-full max-h-[80vh] object-contain rounded-xs border border-gold/40 shadow-2xl">
+                <div class="text-center mt-4">
+                    <h3 id="lightboxTitle" class="font-serif text-xl text-champagne"></h3>
+                    <span id="lightboxCategory" class="text-xs uppercase tracking-widest text-gold"></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- JAVASCRIPT LOGIC -->
+    <!-- ================================================================= -->
+    <script>
+        // AUDIO SYNTHESIZER ENGINE
+        class AmbientSoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.isPlaying = false;
+                this.timer = null;
+            }
+            init() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    this.ctx = new AudioCtx();
+                }
+            }
+            play() {
+                this.init();
+                if (this.ctx.state === 'suspended') this.ctx.resume();
+                this.isPlaying = true;
+                this.scheduleNote();
+            }
+            stop() {
+                this.isPlaying = false;
+                if (this.timer) clearTimeout(this.timer);
+            }
+            toggle() {
+                if (this.isPlaying) this.stop();
+                else this.play();
+                return this.isPlaying;
+            }
+            scheduleNote() {
+                if (!this.isPlaying || !this.ctx) return;
+                const scale = [220, 247.5, 275, 330, 371.25, 440, 495, 550];
+                const freq = scale[Math.floor(Math.random() * scale.length)];
+
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                gain.gain.setValueAtTime(0, this.ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.05, this.ctx.currentTime + 0.1);
+                gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 2.5);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 2.6);
+
+                this.timer = setTimeout(() => this.scheduleNote(), Math.random() * 800 + 500);
+            }
+        }
+        const audioEngine = new AmbientSoundEngine();
+
+        // EXACT ROYAL WEDDING JOURNEY EVENTS DATA WITH PHOTOGRAPHY & VIBE
+        const royalEventsData = [
+            {
+                id: 1,
+                date: "26 JANUARY 2027",
+                name: "Kulachar",
+                timeLabel: "MORNING",
+                subtitle: "The Sacred Beginning",
+                description: "An auspicious beginning filled with divine ancestral blessings, traditional rituals, and intimate family togetherness.",
+                venue: "Ancestral Residence, Heritage Enclave, Jaipur",
+                attire: "Traditional Ethnic Wear (Yellow / Gold)",
+                image: "https://images.unsplash.com/photo-1544078751-58fee2d8a03b?auto=format&fit=crop&q=80&w=1000",
+                svgIcon: `<svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/></svg>`
+            },
+            {
+                id: 2,
+                date: "27 JANUARY 2027",
+                name: "Upanayan Sanskar",
+                timeLabel: "MORNING",
+                subtitle: "A New Tradition",
+                description: "A sacred Vedic occasion celebrating timeless wisdom, spiritual initiation, and new beginnings with family.",
+                venue: "Royal Courtyard Mandap, The Heritage Palace Estate",
+                attire: "Vedic White & Saffron Silks",
+                image: "https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&q=80&w=1000",
+                svgIcon: `<svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.42 15.17L17.25 21A2.121 2.121 0 0114.41 23.83L8.58 18m2.84-2.83l-4.24-4.24a3 3 0 114.24-4.24l4.24 4.24m-4.24 4.24l2.83-2.83m-5.66 5.66l-2.83 2.83"/></svg>`
+            },
+            {
+                id: 3,
+                date: "27 JANUARY 2027",
+                name: "DJ Night",
+                timeLabel: "NIGHT",
+                subtitle: "The Night Comes Alive",
+                description: "An electrifying evening of high-energy music, dancing under starlight, laughter, and unforgettable celebrations.",
+                venue: "The Moonlight Lounge, The Heritage Palace Estate",
+                attire: "Contemporary Glam & Cocktail Wear",
+                image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=1000",
+                svgIcon: `<svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.373a2.25 2.25 0 01-2.798-1.543l-.332-1.25m6.082-3.483V6.75a2.25 2.25 0 00-1.632-2.163l-1.32-.373a2.25 2.25 0 00-2.798 1.543l-.332 1.25m6.082 3.483L9 15.75m0-6.75v10.5m0-10.5l-4.5 1.5"/></svg>`
+            },
+            {
+                id: 4,
+                date: "28 JANUARY 2027",
+                name: "Haldi",
+                timeLabel: "MORNING",
+                subtitle: "A Touch of Sunshine",
+                description: "A splash of golden sunshine, fragrant turmeric paste, vibrant marigolds, and playful joyful memories.",
+                venue: "Sunlit Poolside Lawns, The Heritage Palace Estate",
+                attire: "Sunshine Yellow & Floral Ethnic",
+                image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=1000",
+                svgIcon: `<svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M12 9a3 3 0 100 6 3 3 0 000-6z"/></svg>`
+            },
+            {
+                id: 5,
+                date: "28 JANUARY 2027",
+                name: "Sangeet Night",
+                timeLabel: "NIGHT",
+                subtitle: "Rhythm of Love",
+                description: "Where soulful music meets choreographed dance memories and every family performance tells a story of pure joy.",
+                venue: "The Grand Ballroom, The Heritage Palace Estate",
+                attire: "Royal Indo-Western / Designer Lehengas",
+                image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=1000",
+                svgIcon: `<svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>`
+            },
+            {
+                id: 6,
+                date: "29 JANUARY 2027",
+                name: "The Wedding",
+                timeLabel: "MUHURAT ANNOUNCED",
+                subtitle: "The Forever Promise",
+                description: "With sacred Vedic vows, seven holy steps around the eternal fire, and blessings of our loved ones, we begin our forever.",
+                venue: "The Royal Lotus Mandap, The Heritage Palace Estate",
+                attire: "Royal Heritage Indian Formals",
+                image: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=1000",
+                svgIcon: `<svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>`
+            },
+            {
+                id: 7,
+                date: "30 JANUARY 2027",
+                name: "Satyanarayan Pooja",
+                timeLabel: "MORNING",
+                subtitle: "Blessings & Gratitude",
+                description: "Seeking divine grace, peace, harmony, and eternal prosperity for our new journey together.",
+                venue: "Temple Pavilion, The Heritage Palace Estate",
+                attire: "Graceful Traditional Wear",
+                image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000",
+                svgIcon: `<svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>`
+            },
+            {
+                id: 8,
+                date: "31 JANUARY 2027",
+                name: "Reception",
+                timeLabel: "NIGHT",
+                subtitle: "The Grand Celebration",
+                description: "Join us for an exquisite royal evening celebrating love, fine dining, orchestral music, and joyous toasts.",
+                venue: "The Palace Gardens & Amphitheatre, Jaipur",
+                attire: "Black Tie / Elegant Evening Wear",
+                image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1000",
+                svgIcon: `<svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"/></svg>`
+            }
+        ];
+
+        let flippedCards = {};
+
+        function renderRoyalTimeline() {
+            const container = document.getElementById('royalTimelineContainer');
+            if (!container) return;
+
+            container.innerHTML = royalEventsData.map((ev, idx) => {
+                const isEven = idx % 2 === 0;
+                const isFlipped = !!flippedCards[ev.id];
+                const googleCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(ev.name + " - Shreyas & Damini Wedding")}&details=${encodeURIComponent(ev.description)}&location=${encodeURIComponent(ev.venue)}`;
+
+                return `
+                    <div class="relative flex flex-col md:flex-row items-center ${isEven ? 'md:flex-row-reverse' : ''} group">
+                        
+                        <!-- Center Circular Gold Icon Node (Responsive positioning for mobile left-line) -->
+                        <div class="absolute left-6 sm:left-1/2 transform -translate-x-1/2 w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-ivory border-2 border-gold flex items-center justify-center shadow-[0_0_20px_rgba(182,154,98,0.5)] z-20 group-hover:scale-110 transition-transform">
+                            ${ev.svgIcon}
+                        </div>
+
+                        <!-- Content Half with 3D Flip Perspective (Optimized mobile padding) -->
+                        <div class="w-full pl-16 sm:pl-20 md:w-1/2 md:pl-0 ${isEven ? 'md:pr-16' : 'md:pl-16'} card-perspective">
+                            <div 
+                                onclick="toggleCardFlip(${ev.id})"
+                                class="card-inner ${isFlipped ? 'flipped' : ''} relative cursor-pointer w-full min-h-[380px] sm:min-h-[420px] rounded-xs shadow-2xl transition-all"
+                            >
+                                <!-- FRONT SIDE: Immersive Background Photography & High-Contrast Dates -->
+                                <div class="card-front absolute inset-0 rounded-xs overflow-hidden border-2 border-gold/50 bg-charcoal flex flex-col justify-between p-6 sm:p-7">
+                                    <img src="${ev.image}" alt="${ev.name}" class="absolute inset-0 w-full h-full object-cover opacity-60 sm:opacity-50 group-hover:scale-105 transition-transform duration-700">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-charcoal/95 via-charcoal/60 to-charcoal/30"></div>
+
+                                    <!-- Top Badges -->
+                                    <div class="relative z-10 flex flex-wrap items-center justify-between gap-2">
+                                        <span class="text-[10px] sm:text-xs font-bold tracking-[0.2em] text-ivory bg-wine px-3 py-1.5 rounded-xs shadow-sm border border-gold/40">
+                                            📅 ${ev.date}
+                                        </span>
+                                        <span class="text-[10px] sm:text-[11px] font-bold tracking-[0.15em] text-wine bg-champagne px-2.5 py-1.5 rounded-xs uppercase border border-gold/30">
+                                            ⏰ ${ev.timeLabel}
+                                        </span>
+                                    </div>
+
+                                    <!-- Middle Details -->
+                                    <div class="relative z-10 space-y-2 my-auto">
+                                        <h3 class="font-serif text-2xl sm:text-4xl text-champagne font-light">
+                                            ${ev.name}
+                                        </h3>
+                                        <p class="font-serif italic text-sm sm:text-base text-gold font-medium">
+                                            "${ev.subtitle}"
+                                        </p>
+                                    </div>
+
+                                    <!-- Bottom Flip Prompt -->
+                                    <div class="relative z-10 pt-3 border-t border-gold/30 flex items-center justify-between text-[11px] sm:text-xs text-ivory/90 uppercase tracking-widest font-semibold">
+                                        <span class="flex items-center gap-1.5 truncate max-w-[65%]"><i class="fa-solid fa-location-dot text-gold"></i> ${ev.venue.split(',')[0]}</span>
+                                        <span class="text-gold flex items-center gap-1 shrink-0">Tap to Flip <i class="fa-solid fa-rotate animate-spin duration-[3000ms]"></i></span>
+                                    </div>
+                                </div>
+
+                                <!-- BACK SIDE: Detailed Vibe, Attire & Google Calendar Button -->
+                                <div class="card-back absolute inset-0 rounded-xs overflow-hidden border-2 border-gold bg-ivory p-6 sm:p-7 flex flex-col justify-between text-charcoal shadow-2xl">
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between border-b border-gold/30 pb-2">
+                                            <span class="text-[10px] uppercase tracking-[0.2em] text-gold font-bold">EVENT EXPERIENCE</span>
+                                            <span class="font-serif text-wine italic text-xs sm:text-sm">Shreyas & Damini</span>
+                                        </div>
+
+                                        <h3 class="font-serif text-xl sm:text-2xl text-wine">${ev.name} Details</h3>
+                                        <p class="font-sans text-xs sm:text-sm text-charcoal/90 leading-relaxed">
+                                            ${ev.description}
+                                        </p>
+
+                                        <div class="bg-champagne/40 p-3 rounded-xs border border-gold/30 space-y-1 text-xs">
+                                            <p class="font-semibold text-wine"><i class="fa-solid fa-shirt text-gold me-1"></i> Dress Code: <span class="font-normal text-charcoal">${ev.attire}</span></p>
+                                            <p class="font-semibold text-wine"><i class="fa-solid fa-location-dot text-gold me-1"></i> Venue: <span class="font-normal text-charcoal">${ev.venue}</span></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="pt-4 border-t border-gold/30 flex items-center gap-3">
+                                        <a href="${googleCalUrl}" target="_blank" rel="noreferrer" onclick="event.stopPropagation()" class="flex-1 py-2.5 bg-wine text-ivory text-[11px] sm:text-xs uppercase tracking-widest font-medium text-center rounded-xs border border-gold hover:bg-wine/90 shadow-sm transition-all">
+                                            <i class="fa-regular fa-calendar-plus text-gold me-1"></i> Calendar
+                                        </a>
+                                        <button onclick="event.stopPropagation(); toggleCardFlip(${ev.id})" class="px-4 py-2.5 bg-charcoal text-champagne text-[11px] sm:text-xs uppercase tracking-wider rounded-xs border border-gold/40 hover:bg-charcoal/90">
+                                            Flip Back
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Spacer Half -->
+                        <div class="hidden md:block md:w-1/2"></div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleCardFlip(id) {
+            flippedCards[id] = !flippedCards[id];
+            renderRoyalTimeline();
+        }
+
+        // LIGHTBOX CONTROLS
+        function openLightbox(url, title, category) {
+            document.getElementById('lightboxImg').src = url;
+            document.getElementById('lightboxTitle').textContent = title;
+            document.getElementById('lightboxCategory').textContent = category;
+            const modal = document.getElementById('lightboxModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightboxModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // WHATSAPP SHARE
+        function shareWhatsApp() {
+            const text = encodeURIComponent("Namaste! We warmly invite you to celebrate the wedding of Shreyas & Damini on 29th January 2027 in Jaipur. View our invitation here: " + window.location.href);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        }
+
+        // COUNTDOWN TIMER
+        function updateTimer() {
+            const target = new Date("2027-01-29T10:30:00+05:30").getTime();
+            const now = new Date().getTime();
+            const diff = target - now;
+
+            if (diff > 0) {
+                document.getElementById('timerDays').textContent = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+                document.getElementById('timerHours').textContent = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+                document.getElementById('timerMinutes').textContent = String(Math.floor((diff / 1000 / 60) % 60)).padStart(2, '0');
+                document.getElementById('timerSeconds').textContent = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+            }
+        }
+        setInterval(updateTimer, 1000);
+
+        // INIT ON LOAD
+        document.addEventListener('DOMContentLoaded', () => {
+            renderRoyalTimeline();
+            updateTimer();
+
+            const openBtn = document.getElementById('openInvitationBtn');
+            const gate = document.getElementById('invitationGate');
+            const mainContent = document.getElementById('mainWebsiteContent');
+            const audioBtn = document.getElementById('audioToggleBtn');
+            const audioIcon = document.getElementById('audioIcon');
+
+            openBtn.addEventListener('click', () => {
+                gate.style.opacity = '0';
+                setTimeout(() => {
+                    gate.style.display = 'none';
+                    mainContent.classList.remove('hidden');
+                    audioEngine.play();
+                    audioIcon.className = "fa-solid fa-volume-high text-gold";
+                }, 700);
+            });
+
+            audioBtn.addEventListener('click', () => {
+                const playing = audioEngine.toggle();
+                if (playing) {
+                    audioIcon.className = "fa-solid fa-volume-high text-gold";
+                } else {
+                    audioIcon.className = "fa-solid fa-volume-xmark text-ivory/50";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
