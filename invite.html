@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shreyas & Damini — Mobile View Preview</title>
+    <title>Shreyas & Damini — The Wedding Experience</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -17,7 +17,6 @@
                         gold: '#B69A62',
                         wine: '#642E3B',
                         charcoal: '#1A1816',
-                        deviceBorder: '#2D2926',
                     },
                     fontFamily: {
                         serif: ['"Cormorant Garamond"', 'serif'],
@@ -32,175 +31,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Lucide / FontAwesome SVG Icons Support -->
-    <style>
-        body {
-            background-color: #121110;
-            color: #E9DFCC;
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
 
-        /* Custom Scrollbars */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #1A1816;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #B69A62;
-            border-radius: 3px;
-        }
-
-        /* Simulated Mobile Screen Frame */
-        .phone-casing {
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8),
-                        0 0 40px rgba(182, 154, 98, 0.15),
-                        inset 0 0 2px rgba(255, 255, 255, 0.2);
-        }
-
-        /* Screen Glass Shine */
-        .glass-glare {
-            pointer-events: none;
-            background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 40%);
-        }
-    </style>
-</head>
-<body class="flex flex-col min-h-screen select-none">
-
-    <!-- TOP CONTROL BAR -->
-    <header class="sticky top-0 z-50 bg-charcoal/90 backdrop-blur-md border-b border-gold/30 px-4 py-3 flex flex-wrap items-center justify-between gap-4 shadow-xl">
-        <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-wine border border-gold flex items-center justify-center text-gold font-serif font-bold text-sm">
-                S&D
-            </div>
-            <div>
-                <h1 class="font-serif text-lg text-champagne leading-none">Shreyas & Damini</h1>
-                <p class="text-[10px] text-gold uppercase tracking-widest mt-0.5">Mobile Canvas Simulator</p>
-            </div>
-        </div>
-
-        <!-- CONTROLS CONTAINER -->
-        <div class="flex flex-wrap items-center gap-3">
-            <!-- DEVICE SELECTOR -->
-            <div class="flex items-center bg-black/40 border border-gold/30 rounded-lg p-1 text-xs">
-                <button onclick="setDevice('iphone15')" id="btn-iphone15" class="px-3 py-1.5 rounded-md font-medium text-gold bg-wine border border-gold/40 transition-all flex items-center gap-1.5 cursor-pointer">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="3" stroke-width="2"/><path d="M12 18h.01" stroke-width="2"/></svg>
-                    iPhone 15 Pro
-                </button>
-                <button onclick="setDevice('pixel8')" id="btn-pixel8" class="px-3 py-1.5 rounded-md font-medium text-ivory/70 hover:text-gold transition-all flex items-center gap-1.5 cursor-pointer">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2" stroke-width="2"/><line x1="10" y1="18" x2="14" y2="18" stroke-width="2"/></svg>
-                    Pixel 8
-                </button>
-                <button onclick="setDevice('s24')" id="btn-s24" class="px-3 py-1.5 rounded-md font-medium text-ivory/70 hover:text-gold transition-all flex items-center gap-1.5 cursor-pointer">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" stroke-width="2"/></svg>
-                    Galaxy S24
-                </button>
-            </div>
-
-            <!-- ORIENTATION TOGGLE -->
-            <button onclick="toggleOrientation()" id="btn-orientation" class="px-3 py-2 bg-black/40 border border-gold/30 hover:border-gold rounded-lg text-xs font-medium text-champagne flex items-center gap-2 cursor-pointer transition-all" title="Toggle Portrait/Landscape">
-                <svg class="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                <span id="orientationLabel">Portrait</span>
-            </button>
-
-            <!-- RESOLUTION BADGE -->
-            <div id="dimBadge" class="hidden sm:flex items-center gap-1 bg-gold/10 border border-gold/30 px-3 py-1.5 rounded-lg text-xs text-gold font-mono">
-                393 × 852 px
-            </div>
-        </div>
-    </header>
-
-    <!-- CANVAS SIMULATOR WORKSPACE -->
-    <main class="flex-1 flex items-center justify-center p-4 sm:p-8 relative overflow-auto bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-charcoal via-[#121110] to-black">
-
-        <!-- BACKGROUND LUXURY PATTERN DECORATION -->
-        <div class="absolute inset-0 opacity-5 pointer-events-none bg-[radial-gradient(#B69A62_1px,transparent_1px)] [background-size:24px_24px]"></div>
-
-        <!-- SIMULATED MOBILE PHONE CONTAINER -->
-        <div id="phoneCasing" class="phone-casing relative bg-[#2A2725] rounded-[52px] border-[10px] border-deviceBorder shadow-2xl overflow-hidden flex flex-col my-auto transition-all duration-500">
-            
-            <!-- PHYSICAL HARDWARE BUTTON SIMULATIONS -->
-            <div class="absolute -left-[14px] top-28 w-[4px] h-12 bg-gold/40 rounded-l-md"></div>
-            <div class="absolute -left-[14px] top-44 w-[4px] h-12 bg-gold/40 rounded-l-md"></div>
-            <div class="absolute -right-[14px] top-36 w-[4px] h-16 bg-gold/40 rounded-r-md"></div>
-
-            <!-- CAMERA NOTCH / DYNAMIC ISLAND -->
-            <div id="phoneNotch" class="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-7 bg-black rounded-full z-40 flex items-center justify-between px-3 shadow-md transition-all">
-                <div class="w-3 h-3 rounded-full bg-[#0D0D0D] border border-white/10 flex items-center justify-center">
-                    <div class="w-1.5 h-1.5 rounded-full bg-blue-900/50"></div>
-                </div>
-                <div class="w-2.5 h-2.5 rounded-full bg-[#111] border border-white/10"></div>
-            </div>
-
-            <!-- SIMULATED TOP STATUS BAR -->
-            <div class="h-10 bg-black/90 text-white/90 px-7 flex items-end justify-between text-[11px] font-semibold tracking-wider z-30 pb-1 select-none">
-                <span id="clockDisplay">09:41</span>
-                <div class="flex items-center gap-1.5 text-[10px]">
-                    <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.2c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l.62-.62C7.93 20.26 9.88 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/></svg>
-                    <span>5G</span>
-                    <div class="w-5 h-2.5 border border-white/80 rounded-sm p-0.5 flex items-center">
-                        <div class="h-full w-full bg-white rounded-xs"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SCREEN GLASS GLARE OVERLAY -->
-            <div class="glass-glare absolute inset-0 z-20 pointer-events-none"></div>
-
-            <!-- EMBEDDED WEDDING EXPERIENCE IFRAME -->
-            <iframe 
-                id="previewFrame" 
-                srcdoc="" 
-                class="w-full flex-1 border-0 bg-ivory z-10" 
-                title="Shreyas & Damini Invitation"
-            ></iframe>
-
-            <!-- BOTTOM HOME INDICATOR BAR -->
-            <div class="h-5 bg-black flex items-center justify-center z-30">
-                <div class="w-32 h-1 bg-white/40 rounded-full"></div>
-            </div>
-        </div>
-    </main>
-
-    <!-- INLINE HTML APP SOURCE DATA TO FEED INTO THE SIMULATED IFRAME -->
-    <script>
-        const weddingAppSrc = `<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shreyas & Damini — The Wedding Experience</title>
-    
-    <script src="https://cdn.tailwindcss.com"><\/script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        ivory: '#F8F5EF',
-                        champagne: '#E9DFCC',
-                        gold: '#B69A62',
-                        wine: '#642E3B',
-                        charcoal: '#1A1816',
-                    },
-                    fontFamily: {
-                        serif: ['"Cormorant Garamond"', 'serif'],
-                        sans: ['"Inter"', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    <\/script>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         body {
@@ -208,29 +41,19 @@
             color: #292723;
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            margin: 0;
-            padding: 0;
         }
 
-        /* Gold shimmer animation around wax seal */
-        @keyframes sealGlow {
-            0%, 100% { box-shadow: 0 0 15px rgba(182, 154, 98, 0.4), 0 0 30px rgba(182, 154, 98, 0.2); transform: translate(-50%, -50%) scale(1); }
-            50% { box-shadow: 0 0 25px rgba(182, 154, 98, 0.8), 0 0 50px rgba(182, 154, 98, 0.4); transform: translate(-50%, -50%) scale(1.03); }
-        }
-
+        /* Gold Shimmer and Ripple Animations */
         @keyframes rippleOut {
             0% { transform: scale(0.8); opacity: 0.9; }
             100% { transform: scale(2.5); opacity: 0; }
-        }
-
-        .seal-shimmer {
-            animation: sealGlow 3s ease-in-out infinite;
         }
 
         .ripple-effect {
             animation: rippleOut 0.8s ease-out forwards;
         }
 
+        /* Luxury gold corner frame effect */
         .gold-corner-frame {
             position: relative;
         }
@@ -243,45 +66,59 @@
             z-index: 10;
         }
 
-        .card-perspective { perspective: 1000px; }
-        .card-inner { transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; }
-        .card-inner.flipped { transform: rotateY(180deg); }
-        .card-front, .card-back { backface-visibility: hidden; }
-        .card-back { transform: rotateY(180deg); }
+        /* Card flip container */
+        .card-perspective {
+            perspective: 1000px;
+        }
+        .card-inner {
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .card-inner.flipped {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .animate-fade-in { animation: fadeIn 0.8s ease forwards; }
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
     </style>
 </head>
-<body class="selection:bg-wine selection:text-ivory pb-12">
+<body class="selection:bg-wine selection:text-ivory">
 
     <!-- ================================================================= -->
-    <!-- STEP 1 & 2: ENVELOPE OPENING & WAX SEAL INTERACTION -->
+    <!-- STEP 1 & 2: ENVELOPE OPENING (TAP ANYWHERE ON SCREEN) -->
     <!-- ================================================================= -->
     <div 
         id="envelopeOverlay" 
         onclick="handleEnvelopeClick(event)"
         class="fixed inset-0 z-50 bg-[#121110] flex items-center justify-center overflow-hidden transition-opacity duration-1000 cursor-pointer select-none"
     >
-        <div class="relative w-full h-full max-w-lg mx-auto flex items-center justify-center p-2">
+        <div class="relative w-full h-full max-w-md mx-auto flex items-center justify-center">
             
-            <!-- Exact Envelope Image Asset -->
+            <!-- Exact Envelope Image Asset - Fitted Edge-to-Edge in 9:16 Full Screen -->
             <img 
                 src="https://raw.githubusercontent.com/lambeshreyas/WeddingInvite/main/1000147498.png" 
                 alt="Shreyas & Damini Wedding Invitation Envelope" 
-                class="w-full h-auto max-h-[92vh] object-contain drop-shadow-2xl rounded-xs select-none pointer-events-none"
+                class="w-full h-full object-cover select-none pointer-events-none drop-shadow-2xl"
             >
 
             <!-- Light Ripple Ring Container -->
             <div id="rippleContainer" class="absolute inset-0 pointer-events-none overflow-visible"></div>
 
-            <!-- Subtle Elegant Overlaid Text Prompt (No circular logo/button) -->
-            <div class="absolute bottom-12 left-1/2 -translate-x-1/2 text-center z-20 space-y-1 px-6 py-2.5 bg-black/30 backdrop-blur-sm border border-gold/40 rounded-full animate-pulse pointer-events-none">
-                <span class="text-[11px] uppercase tracking-[0.25em] text-champagne font-medium drop-shadow-md">
-                    ✨ Tap anywhere to open invite ✨
+            <!-- Simple Elegant Text Slightly Higher Up Over Image -->
+            <div class="absolute inset-0 flex items-center justify-center -translate-y-8 text-center z-20 pointer-events-none px-6">
+                <span class="font-serif italic text-lg sm:text-xl tracking-widest text-champagne drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] animate-pulse font-light">
+                    Tap to open invite
                 </span>
             </div>
         </div>
@@ -292,7 +129,7 @@
     <!-- ================================================================= -->
     <div id="videoOverlay" class="fixed inset-0 z-50 bg-black hidden flex-col items-center justify-center transition-opacity duration-1000 opacity-0">
         
-        <!-- Video Canvas -->
+        <!-- Video Element -->
         <video 
             id="weddingIntroVideo" 
             playsinline 
@@ -301,238 +138,273 @@
             src="https://raw.githubusercontent.com/lambeshreyas/WeddingInvite/main/1000147474.mp4"
         ></video>
 
-        <!-- Video Control Bar (Skip Intro & Sound) -->
-        <div class="absolute top-4 right-4 z-50 flex items-center gap-2">
+        <!-- Video Controls Bar -->
+        <div class="absolute top-6 right-6 z-50 flex items-center gap-3">
             <button 
                 id="videoMuteBtn"
                 onclick="toggleVideoSound()"
-                class="bg-black/60 hover:bg-black/80 text-champagne border border-gold/40 px-3 py-1.5 rounded-full text-[11px] uppercase tracking-wider flex items-center gap-1.5 backdrop-blur-md cursor-pointer transition-all"
+                class="bg-black/60 hover:bg-black/80 text-champagne border border-gold/40 px-4 py-2 rounded-full text-xs uppercase tracking-wider flex items-center gap-2 backdrop-blur-md cursor-pointer transition-all"
             >
+                <i id="videoSoundIcon" class="fa-solid fa-volume-high text-gold"></i>
                 <span id="soundLabel">Sound On</span>
             </button>
 
             <button 
                 onclick="transitionToHomepage()"
-                class="bg-wine/80 hover:bg-wine text-ivory border border-gold px-4 py-1.5 rounded-full text-[11px] uppercase tracking-widest font-semibold backdrop-blur-md cursor-pointer transition-all shadow-lg flex items-center gap-1"
+                class="bg-wine/90 hover:bg-wine text-ivory border border-gold px-5 py-2 rounded-full text-xs uppercase tracking-widest font-semibold backdrop-blur-md cursor-pointer transition-all shadow-lg flex items-center gap-1.5"
             >
-                Skip Intro →
+                <span>Skip Intro</span>
+                <i class="fa-solid fa-arrow-right text-gold"></i>
             </button>
         </div>
 
-        <!-- Video Error Fallback Indicator -->
+        <!-- Video Error Fallback Container -->
         <div id="videoErrorMsg" class="hidden absolute inset-0 bg-charcoal text-center flex-col items-center justify-center p-6 space-y-4">
-            <p class="font-serif text-xl text-champagne">Playing wedding announcement...</p>
-            <button onclick="transitionToHomepage()" class="px-6 py-2 bg-wine text-ivory border border-gold text-xs uppercase tracking-widest">
+            <p class="font-serif text-2xl text-champagne">Playing wedding announcement...</p>
+            <button onclick="transitionToHomepage()" class="px-8 py-3 bg-wine text-ivory border border-gold text-xs uppercase tracking-widest cursor-pointer">
                 Proceed to Invitation
             </button>
         </div>
     </div>
 
     <!-- ================================================================= -->
-    <!-- STEP 4: HOMEPAGE REVEAL & MAIN CONTENT -->
+    <!-- STEP 4: MAIN WEDDING WEBSITE HOMEPAGE -->
     <!-- ================================================================= -->
     <div id="mainWebsiteContent" class="hidden relative animate-fade-in">
 
-        <!-- FLOATING CONTROLS -->
-        <div class="fixed bottom-4 right-4 z-40 flex items-center gap-2">
+        <!-- FLOATING CONTROLS (WHATSAPP & MUSIC) -->
+        <div class="fixed bottom-6 right-6 z-40 flex items-center gap-3">
             <button 
                 onclick="shareWhatsApp()"
-                class="w-10 h-10 bg-[#25D366] text-white rounded-full shadow-lg flex items-center justify-center cursor-pointer active:scale-90 transition-transform"
+                class="w-12 h-12 bg-[#25D366] hover:bg-[#25D366]/90 text-white rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-105 cursor-pointer"
                 title="Share on WhatsApp"
             >
-                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                <i class="fa-brands fa-whatsapp text-xl"></i>
             </button>
             <button 
                 id="audioToggleBtn"
-                class="w-10 h-10 bg-wine text-champagne border border-gold rounded-full shadow-lg flex items-center justify-center cursor-pointer active:scale-90 transition-transform"
+                class="w-12 h-12 bg-wine hover:bg-wine/90 text-ivory border border-gold rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-105 cursor-pointer"
                 title="Toggle Music"
             >
-                <svg id="audioIcon" class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                <i id="audioIcon" class="fa-solid fa-volume-high text-gold"></i>
             </button>
         </div>
 
         <!-- HERO SECTION -->
-        <section class="relative min-h-[85vh] flex flex-col items-center justify-center text-center px-4 py-12 bg-charcoal text-ivory overflow-hidden">
+        <section class="relative min-h-screen flex flex-col items-center justify-center text-center px-4 py-20 bg-charcoal text-ivory overflow-hidden">
             <img 
-                src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=800" 
+                src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=1200" 
                 alt="Wedding Hero" 
-                class="absolute inset-0 w-full h-full object-cover opacity-40 scale-105"
+                class="absolute inset-0 w-full h-full object-cover opacity-40 scale-105 animate-pulse duration-[10000ms]"
             >
             <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/50 to-transparent"></div>
 
-            <div class="relative z-20 max-w-xs space-y-4">
-                <span class="text-[10px] uppercase tracking-[0.25em] text-gold font-semibold block">
-                    सहधर्मचारिणी • A ROYAL CELEBRATION
+            <div class="relative z-20 max-w-3xl space-y-6">
+                <span class="text-xs uppercase tracking-[0.3em] text-gold font-semibold block">
+                    सहधर्मचारिणी • A CELEBRATION OF LOVE & TRADITION
                 </span>
-                <h1 class="font-serif text-4xl text-champagne font-light">
+                <h1 class="font-serif text-5xl sm:text-7xl text-champagne font-light">
                     Shreyas
-                    <span class="block font-serif italic text-2xl text-gold my-2">&</span>
+                    <span class="block font-serif italic text-3xl sm:text-4xl text-gold my-3">&</span>
                     Damini
                 </h1>
-                <p class="text-[11px] tracking-[0.2em] uppercase text-ivory/80">
-                    29 JANUARY 2027 • JAIPUR
+                <p class="text-xs sm:text-sm tracking-[0.2em] uppercase text-ivory/80">
+                    29 JANUARY 2027 • JAIPUR, RAJASTHAN
                 </p>
             </div>
         </section>
 
         <!-- COUPLE INTRODUCTION -->
-        <section class="py-12 px-4 text-center">
-            <span class="text-[10px] uppercase tracking-[0.25em] text-gold font-medium block mb-1">
+        <section id="couple" class="py-24 px-6 md:px-12 max-w-5xl mx-auto text-center">
+            <span class="text-xs uppercase tracking-[0.3em] text-gold font-medium block mb-2">
                 THE BEGINNING OF FOREVER
             </span>
-            <h2 class="font-serif text-3xl text-wine mb-3">
+            <h2 class="font-serif text-4xl sm:text-5xl text-wine mb-6">
                 Two Families, One Journey
             </h2>
-            <p class="font-serif italic text-sm text-charcoal/80 max-w-xs mx-auto mb-8 leading-relaxed">
-                "With divine blessings, we joyfully invite you to celebrate love, tradition and togetherness."
+            <p class="font-serif italic text-lg sm:text-xl text-charcoal/80 max-w-2xl mx-auto mb-16 leading-relaxed">
+                "With the divine blessings of our ancestors and the loving affection of our families, we joyfully invite you to join us as we celebrate love, tradition and togetherness."
             </p>
 
-            <div class="space-y-6">
-                <div class="gold-corner-frame relative p-4 border border-gold/40 bg-white shadow-lg space-y-3">
-                    <div class="relative w-36 h-48 mx-auto overflow-hidden rounded-xs border border-gold/30">
-                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=400" alt="Groom" class="w-full h-full object-cover">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="gold-corner-frame relative p-6 border border-gold/40 bg-white shadow-xl space-y-4">
+                    <div class="relative w-48 h-64 mx-auto overflow-hidden rounded-xs border border-gold/30">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=800" alt="Groom" class="w-full h-full object-cover">
                     </div>
                     <div>
-                        <h3 class="font-serif text-xl text-wine">Shreyas Kulkarni</h3>
-                        <p class="text-[10px] uppercase tracking-widest text-gold mt-0.5">S/o Radhika & Anand Kulkarni</p>
+                        <h3 class="font-serif text-2xl text-wine">Shreyas Kulkarni</h3>
+                        <p class="text-xs uppercase tracking-widest text-gold mt-1">S/o Smt. Radhika & Shri Anand Kulkarni</p>
                     </div>
                 </div>
 
-                <div class="gold-corner-frame relative p-4 border border-gold/40 bg-white shadow-lg space-y-3">
-                    <div class="relative w-36 h-48 mx-auto overflow-hidden rounded-xs border border-gold/30">
-                        <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=400" alt="Bride" class="w-full h-full object-cover">
+                <div class="gold-corner-frame relative p-6 border border-gold/40 bg-white shadow-xl space-y-4">
+                    <div class="relative w-48 h-64 mx-auto overflow-hidden rounded-xs border border-gold/30">
+                        <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=800" alt="Bride" class="w-full h-full object-cover">
                     </div>
                     <div>
-                        <h3 class="font-serif text-xl text-wine">Damini Sharma</h3>
-                        <p class="text-[10px] uppercase tracking-widest text-gold mt-0.5">D/o Sunita & Rajesh Sharma</p>
+                        <h3 class="font-serif text-2xl text-wine">Damini Sharma</h3>
+                        <p class="text-xs uppercase tracking-widest text-gold mt-1">D/o Smt. Sunita & Shri Rajesh Sharma</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- LIVE COUNTDOWN -->
-        <section class="py-10 px-4 bg-wine text-ivory text-center">
-            <div class="space-y-4">
-                <span class="text-[10px] uppercase tracking-[0.25em] text-champagne font-medium block">
-                    CELEBRATION BEGINS IN
+        <section class="py-20 px-6 bg-wine text-ivory text-center">
+            <div class="max-w-4xl mx-auto space-y-8">
+                <span class="text-xs uppercase tracking-[0.3em] text-champagne font-medium block">
+                    THE CELEBRATION BEGINS IN
                 </span>
-                <div class="grid grid-cols-4 gap-2 max-w-xs mx-auto">
-                    <div class="bg-white/5 border border-gold/30 p-2 rounded-xs">
-                        <span id="timerDays" class="font-serif text-2xl text-champagne font-light">00</span>
-                        <span class="text-[8px] tracking-[0.1em] text-gold font-medium block">DAYS</span>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto">
+                    <div class="bg-white/5 border border-gold/30 p-4 rounded-xs">
+                        <span id="timerDays" class="font-serif text-4xl sm:text-6xl text-champagne font-light">00</span>
+                        <span class="text-[10px] sm:text-xs tracking-[0.2em] uppercase text-gold font-medium mt-2 block">DAYS</span>
                     </div>
-                    <div class="bg-white/5 border border-gold/30 p-2 rounded-xs">
-                        <span id="timerHours" class="font-serif text-2xl text-champagne font-light">00</span>
-                        <span class="text-[8px] tracking-[0.1em] text-gold font-medium block">HOURS</span>
+                    <div class="bg-white/5 border border-gold/30 p-4 rounded-xs">
+                        <span id="timerHours" class="font-serif text-4xl sm:text-6xl text-champagne font-light">00</span>
+                        <span class="text-[10px] sm:text-xs tracking-[0.2em] uppercase text-gold font-medium mt-2 block">HOURS</span>
                     </div>
-                    <div class="bg-white/5 border border-gold/30 p-2 rounded-xs">
-                        <span id="timerMinutes" class="font-serif text-2xl text-champagne font-light">00</span>
-                        <span class="text-[8px] tracking-[0.1em] text-gold font-medium block">MINS</span>
+                    <div class="bg-white/5 border border-gold/30 p-4 rounded-xs">
+                        <span id="timerMinutes" class="font-serif text-4xl sm:text-6xl text-champagne font-light">00</span>
+                        <span class="text-[10px] sm:text-xs tracking-[0.2em] uppercase text-gold font-medium mt-2 block">MINUTES</span>
                     </div>
-                    <div class="bg-white/5 border border-gold/30 p-2 rounded-xs">
-                        <span id="timerSeconds" class="font-serif text-2xl text-champagne font-light">00</span>
-                        <span class="text-[8px] tracking-[0.1em] text-gold font-medium block">SECS</span>
+                    <div class="bg-white/5 border border-gold/30 p-4 rounded-xs">
+                        <span id="timerSeconds" class="font-serif text-4xl sm:text-6xl text-champagne font-light">00</span>
+                        <span class="text-[10px] sm:text-xs tracking-[0.2em] uppercase text-gold font-medium mt-2 block">SECONDS</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- TIMELINE SECTION -->
-        <section class="py-12 px-3 relative bg-gradient-to-b from-[#F8F5EF] via-[#E9DFCC]/20 to-[#F8F5EF]">
-            <div class="text-center mb-8 space-y-2">
-                <span class="text-[10px] uppercase tracking-[0.25em] text-gold font-bold block">
-                    ✨ मङ्गलम् • EIGHT CHAPTERS ✨
+        <!-- ROYAL WEDDING JOURNEY (TIMELINE) -->
+        <section id="itinerary" class="py-24 sm:py-28 px-4 sm:px-6 md:px-12 max-w-5xl mx-auto relative bg-gradient-to-b from-[#F8F5EF] via-[#E9DFCC]/20 to-[#F8F5EF]">
+            <div class="text-center mb-12 sm:mb-16 space-y-3">
+                <span class="text-[11px] sm:text-xs uppercase tracking-[0.35em] text-gold font-bold block">
+                    ✨ मङ्गलम् • EIGHT CHAPTERS OF CELEBRATION ✨
                 </span>
-                <h2 class="font-serif text-3xl text-wine font-light">
-                    Royal Wedding Journey
+                <h2 class="font-serif text-3xl sm:text-6xl text-wine font-light tracking-wide">
+                    Our Royal Wedding Journey
                 </h2>
-                <p class="font-serif italic text-xs text-charcoal/80 max-w-xs mx-auto">
-                    Tap any event card to flip and discover venue & dress code!
+                <p class="font-serif italic text-base sm:text-xl text-charcoal/80 max-w-lg mx-auto px-2">
+                    Eight Events. One Timeless Cinematic Beginning. Tap any card to flip and explore the royal experience!
                 </p>
+                <div class="w-24 h-0.5 bg-gold/50 mx-auto mt-4"></div>
             </div>
 
-            <!-- TIMELINE CONTAINER -->
+            <!-- Vertical Timeline Container -->
             <div class="relative">
-                <div class="absolute left-4 top-2 bottom-2 w-0.5 bg-gold/50"></div>
-                <div id="royalTimelineContainer" class="space-y-6 relative z-10 pl-10">
-                    <!-- Dynamic rendering -->
+                <div class="absolute left-6 sm:left-1/2 top-4 bottom-4 w-1 bg-gradient-to-b from-gold/10 via-gold to-gold/10 transform -translate-x-1/2 shadow-[0_0_15px_rgba(182,154,98,0.4)]"></div>
+                <div id="royalTimelineContainer" class="space-y-12 sm:space-y-16 relative z-10"></div>
+            </div>
+        </section>
+
+        <!-- VENUE SECTION -->
+        <section id="venue" class="py-24 px-6 md:px-12 bg-white/60 border-y border-gold/20 text-center space-y-8">
+            <div class="max-w-4xl mx-auto space-y-4">
+                <span class="text-xs uppercase tracking-[0.3em] text-gold font-medium block">
+                    WHERE WE CELEBRATE
+                </span>
+                <h2 class="font-serif text-4xl sm:text-5xl text-wine">
+                    The Heritage Palace Estate
+                </h2>
+                <p class="text-sm text-charcoal/80 max-w-md mx-auto">
+                    Palace Road, Near Jal Mahal, Jaipur, Rajasthan 302002
+                </p>
+                <div class="pt-2">
+                    <a 
+                        href="https://maps.google.com/?q=Jaipur+Palace" 
+                        target="_blank" 
+                        rel="noreferrer"
+                        class="inline-flex items-center gap-2 bg-wine text-ivory px-6 py-3 text-xs uppercase tracking-widest font-medium rounded-xs border border-gold hover:bg-wine/90 transition-all"
+                    >
+                        <span>OPEN IN GOOGLE MAPS</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-gold"></i>
+                    </a>
                 </div>
             </div>
         </section>
 
-        <!-- VENUE -->
-        <section class="py-10 px-4 bg-white/80 border-y border-gold/20 text-center space-y-4">
-            <span class="text-[10px] uppercase tracking-[0.2em] text-gold font-medium block">
-                WHERE WE CELEBRATE
+        <!-- FOOTER WITH REPLAY OPTION -->
+        <footer class="py-20 px-6 bg-charcoal text-ivory text-center space-y-6">
+            <span class="text-xs uppercase tracking-[0.3em] text-gold block">
+                सर्वे भवन्तु सुखिनः • WITH LOVE & GRATITUDE
             </span>
-            <h2 class="font-serif text-2xl text-wine">
-                The Heritage Palace Estate
-            </h2>
-            <p class="text-xs text-charcoal/80 max-w-xs mx-auto">
-                Palace Road, Near Jal Mahal, Jaipur, Rajasthan 302002
-            </p>
-            <a 
-                href="https://maps.google.com/?q=Jaipur+Palace" 
-                target="_blank" 
-                class="inline-flex items-center gap-2 bg-wine text-ivory px-5 py-2.5 text-[10px] uppercase tracking-widest font-medium rounded-xs border border-gold"
-            >
-                MAP DIRECTIONS
-            </a>
-        </section>
-
-        <!-- FOOTER WITH REPLAY INVITATION OPTION -->
-        <footer class="py-10 px-4 bg-charcoal text-ivory text-center space-y-4">
-            <span class="text-[10px] uppercase tracking-[0.2em] text-gold block">
-                WITH LOVE & GRATITUDE
-            </span>
-            <h2 class="font-serif text-2xl text-champagne">
+            <h2 class="font-serif text-3xl sm:text-4xl text-champagne">
                 Shreyas & Damini
             </h2>
-            <p class="font-serif text-sm text-gold">
+            <p class="font-serif text-lg text-gold">
                 29 JANUARY 2027
             </p>
 
-            <div class="pt-4 border-t border-gold/20">
+            <div class="pt-6 border-t border-gold/20">
                 <button 
                     onclick="replayOpeningExperience()" 
-                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-black/40 hover:bg-wine text-gold hover:text-ivory border border-gold/40 text-[10px] uppercase tracking-widest rounded-full transition-all cursor-pointer"
+                    class="inline-flex items-center gap-2 px-5 py-2.5 bg-black/40 hover:bg-wine text-gold hover:text-ivory border border-gold/40 text-xs uppercase tracking-widest rounded-full transition-all cursor-pointer"
                 >
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                    Replay Opening Envelope
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span>Replay Opening Envelope</span>
                 </button>
             </div>
         </footer>
 
     </div>
 
-    <!-- LOGIC ENGINE -->
+    <!-- ================================================================= -->
+    <!-- JAVASCRIPT ENGINE -->
+    <!-- ================================================================= -->
     <script>
-        // AUDIO SYNTH
+        // AUDIO SYNTHESIZER ENGINE
         class AmbientSoundEngine {
-            constructor() { this.ctx = null; this.isPlaying = false; }
-            init() { if (!this.ctx) { const AudioCtx = window.AudioContext || window.webkitAudioContext; this.ctx = new AudioCtx(); } }
-            play() { this.init(); if (this.ctx.state === 'suspended') this.ctx.resume(); this.isPlaying = true; this.schedule(); }
-            stop() { this.isPlaying = false; }
-            toggle() { if (this.isPlaying) this.stop(); else this.play(); return this.isPlaying; }
-            schedule() {
-                if (!this.isPlaying) return;
-                const scale = [220, 247.5, 275, 330, 371.25, 440];
+            constructor() {
+                this.ctx = null;
+                this.isPlaying = false;
+                this.timer = null;
+            }
+            init() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    this.ctx = new AudioCtx();
+                }
+            }
+            play() {
+                this.init();
+                if (this.ctx.state === 'suspended') this.ctx.resume();
+                this.isPlaying = true;
+                this.scheduleNote();
+            }
+            stop() {
+                this.isPlaying = false;
+                if (this.timer) clearTimeout(this.timer);
+            }
+            toggle() {
+                if (this.isPlaying) this.stop();
+                else this.play();
+                return this.isPlaying;
+            }
+            scheduleNote() {
+                if (!this.isPlaying || !this.ctx) return;
+                const scale = [220, 247.5, 275, 330, 371.25, 440, 495, 550];
                 const freq = scale[Math.floor(Math.random() * scale.length)];
+
                 const osc = this.ctx.createOscillator();
                 const gain = this.ctx.createGain();
                 osc.type = 'triangle';
                 osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
                 gain.gain.setValueAtTime(0, this.ctx.currentTime);
-                gain.gain.linearRampToValueAtTime(0.04, this.ctx.currentTime + 0.1);
-                gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 2);
-                osc.connect(gain); gain.connect(this.ctx.destination);
-                osc.start(); osc.stop(this.ctx.currentTime + 2.1);
-                setTimeout(() => this.schedule(), Math.random() * 800 + 600);
+                gain.gain.linearRampToValueAtTime(0.05, this.ctx.currentTime + 0.1);
+                gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 2.5);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 2.6);
+
+                this.timer = setTimeout(() => this.scheduleNote(), Math.random() * 800 + 500);
             }
         }
         const audioEngine = new AmbientSoundEngine();
 
-        // FLOW MANAGEMENT (TAP ANYWHERE ON ENVELOPE)
+        // ENVELOPE TAP & RIPPLE LOGIC
         let isOpening = false;
         function handleEnvelopeClick(e) {
             if (isOpening) return;
@@ -540,14 +412,12 @@
 
             const ripple = document.getElementById('rippleContainer');
 
-            // Spawn Golden Ripple Ring across screen tap location
             if (ripple) {
                 const ring = document.createElement('div');
                 ring.className = 'absolute inset-0 rounded-full border-2 border-gold ripple-effect';
                 ripple.appendChild(ring);
             }
 
-            // Transition directly to Video Overlay
             setTimeout(() => {
                 const envOverlay = document.getElementById('envelopeOverlay');
                 envOverlay.style.opacity = '0';
@@ -573,9 +443,10 @@
             const playPromise = video.play();
             if (playPromise !== undefined) {
                 playPromise.catch(err => {
-                    console.warn("Autoplay with audio restricted, trying muted fallback:", err);
+                    console.warn("Audio restriction encountered, running muted fallback:", err);
                     video.muted = true;
                     document.getElementById('soundLabel').textContent = "Unmute";
+                    document.getElementById('videoSoundIcon').className = "fa-solid fa-volume-xmark text-ivory/50";
                     video.play().catch(() => {
                         document.getElementById('videoErrorMsg').classList.remove('hidden');
                     });
@@ -590,8 +461,11 @@
         function toggleVideoSound() {
             const video = document.getElementById('weddingIntroVideo');
             const label = document.getElementById('soundLabel');
+            const icon = document.getElementById('videoSoundIcon');
+            
             video.muted = !video.muted;
             label.textContent = video.muted ? "Unmute" : "Sound On";
+            icon.className = video.muted ? "fa-solid fa-volume-xmark text-ivory/50" : "fa-solid fa-volume-high text-gold";
         }
 
         function transitionToHomepage() {
@@ -608,9 +482,7 @@
                 const mainContent = document.getElementById('mainWebsiteContent');
                 mainContent.classList.remove('hidden');
 
-                // Mark session so repetition doesn't occur on refresh
                 sessionStorage.setItem('sd_wedding_opened', 'true');
-
                 audioEngine.play();
             }, 800);
         }
@@ -620,76 +492,208 @@
             window.location.reload();
         }
 
-        // ROYAL EVENTS DATA
+        // ROYAL EVENTS TIMELINE DATA
         const royalEventsData = [
-            { id: 1, date: "26 JAN 2027", name: "Kulachar", time: "MORNING", desc: "Auspicious ancestral blessings and traditional rituals.", attire: "Ethnic Yellow/Gold", image: "https://images.unsplash.com/photo-1544078751-58fee2d8a03b?auto=format&fit=crop&q=80&w=600" },
-            { id: 2, date: "27 JAN 2027", name: "Upanayan Sanskar", time: "MORNING", desc: "Sacred Vedic initiation and thread ceremony.", attire: "White & Saffron Silks", image: "https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&q=80&w=600" },
-            { id: 3, date: "27 JAN 2027", name: "DJ Night", time: "NIGHT", desc: "High-energy music and dancing under the stars.", attire: "Cocktail Wear", image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=600" },
-            { id: 4, date: "28 JAN 2027", name: "Haldi", time: "MORNING", desc: "Turmeric, marigolds, and joyous splashes.", attire: "Sunshine Yellow", image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=600" },
-            { id: 5, date: "28 JAN 2027", name: "Sangeet Night", time: "NIGHT", desc: "Music, dance performances, and family toasts.", attire: "Indo-Western Glam", image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=600" },
-            { id: 6, date: "29 JAN 2027", name: "The Wedding", time: "MUHURAT", desc: "Seven holy vows around the sacred flame.", attire: "Heritage Royal", image: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=600" },
-            { id: 7, date: "30 JAN 2027", name: "Satyanarayan Pooja", time: "MORNING", desc: "Seeking divine blessings for our new journey.", attire: "Graceful Ethnic", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=600" },
-            { id: 8, date: "31 JAN 2027", name: "Reception", time: "NIGHT", desc: "Grand royal evening and celebratory dinner.", attire: "Black Tie / Elegant", image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=600" }
+            {
+                id: 1,
+                date: "26 JANUARY 2027",
+                name: "Kulachar",
+                timeLabel: "MORNING",
+                subtitle: "The Sacred Beginning",
+                description: "An auspicious beginning filled with divine ancestral blessings, traditional rituals, and intimate family togetherness.",
+                venue: "Ancestral Residence, Heritage Enclave, Jaipur",
+                attire: "Traditional Ethnic Wear (Yellow / Gold)",
+                image: "https://images.unsplash.com/photo-1544078751-58fee2d8a03b?auto=format&fit=crop&q=80&w=1000",
+                svgIcon: `<svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/></svg>`
+            },
+            {
+                id: 2,
+                date: "27 JANUARY 2027",
+                name: "Upanayan Sanskar",
+                timeLabel: "MORNING",
+                subtitle: "A New Tradition",
+                description: "A sacred Vedic occasion celebrating timeless wisdom, spiritual initiation, and new beginnings with family.",
+                venue: "Royal Courtyard Mandap, The Heritage Palace Estate",
+                attire: "Vedic White & Saffron Silks",
+                image: "https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&q=80&w=1000",
+                svgIcon: `<svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.42 15.17L17.25 21A2.121 2.121 0 0114.41 23.83L8.58 18m2.84-2.83l-4.24-4.24a3 3 0 114.24-4.24l4.24 4.24m-4.24 4.24l2.83-2.83m-5.66 5.66l-2.83 2.83"/></svg>`
+            },
+            {
+                id: 3,
+                date: "27 JANUARY 2027",
+                name: "DJ Night",
+                timeLabel: "NIGHT",
+                subtitle: "The Night Comes Alive",
+                description: "An electrifying evening of high-energy music, dancing under starlight, laughter, and unforgettable celebrations.",
+                venue: "The Moonlight Lounge, The Heritage Palace Estate",
+                attire: "Contemporary Glam & Cocktail Wear",
+                image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=1000",
+                svgIcon: `<svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.373a2.25 2.25 0 01-2.798-1.543l-.332-1.25m6.082-3.483V6.75a2.25 2.25 0 00-1.632-2.163l-1.32-.373a2.25 2.25 0 00-2.798 1.543l-.332 1.25m6.082 3.483L9 15.75m0-6.75v10.5m0-10.5l-4.5 1.5"/></svg>`
+            },
+            {
+                id: 4,
+                date: "28 JANUARY 2027",
+                name: "Haldi",
+                timeLabel: "MORNING",
+                subtitle: "A Touch of Sunshine",
+                description: "A splash of golden sunshine, fragrant turmeric paste, vibrant marigolds, and playful joyful memories.",
+                venue: "Sunlit Poolside Lawns, The Heritage Palace Estate",
+                attire: "Sunshine Yellow & Floral Ethnic",
+                image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=1000",
+                svgIcon: `<svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M12 9a3 3 0 100 6 3 3 0 000-6z"/></svg>`
+            },
+            {
+                id: 5,
+                date: "28 JANUARY 2027",
+                name: "Sangeet Night",
+                timeLabel: "NIGHT",
+                subtitle: "Rhythm of Love",
+                description: "Where soulful music meets choreographed dance memories and every family performance tells a story of pure joy.",
+                venue: "The Grand Ballroom, The Heritage Palace Estate",
+                attire: "Royal Indo-Western / Designer Lehengas",
+                image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=1000",
+                svgIcon: `<svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>`
+            },
+            {
+                id: 6,
+                date: "29 JANUARY 2027",
+                name: "The Wedding",
+                timeLabel: "MUHURAT ANNOUNCED",
+                subtitle: "The Forever Promise",
+                description: "With sacred Vedic vows, seven holy steps around the eternal fire, and blessings of our loved ones, we begin our forever.",
+                venue: "The Royal Lotus Mandap, The Heritage Palace Estate",
+                attire: "Royal Heritage Indian Formals",
+                image: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=1000",
+                svgIcon: `<svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>`
+            },
+            {
+                id: 7,
+                date: "30 JANUARY 2027",
+                name: "Satyanarayan Pooja",
+                timeLabel: "MORNING",
+                subtitle: "Blessings & Gratitude",
+                description: "Seeking divine grace, peace, harmony, and eternal prosperity for our new journey together.",
+                venue: "Temple Pavilion, The Heritage Palace Estate",
+                attire: "Graceful Traditional Wear",
+                image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000",
+                svgIcon: `<svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>`
+            },
+            {
+                id: 8,
+                date: "31 JANUARY 2027",
+                name: "Reception",
+                timeLabel: "NIGHT",
+                subtitle: "The Grand Celebration",
+                description: "Join us for an exquisite royal evening celebrating love, fine dining, orchestral music, and joyous toasts.",
+                venue: "The Palace Gardens & Amphitheatre, Jaipur",
+                attire: "Black Tie / Elegant Evening Wear",
+                image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1000",
+                svgIcon: `<svg class="w-6 h-6 sm:w-7 sm:h-7 text-gold animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"/></svg>`
+            }
         ];
 
-        let flipped = {};
+        let flippedCards = {};
 
-        function renderTimeline() {
+        function renderRoyalTimeline() {
             const container = document.getElementById('royalTimelineContainer');
             if (!container) return;
-            container.innerHTML = royalEventsData.map(ev => {
-                const isFlipped = !!flipped[ev.id];
-                return \`
-                    <div class="relative card-perspective">
-                        <div class="absolute -left-[37px] top-4 w-7 h-7 rounded-full bg-ivory border-2 border-gold flex items-center justify-center text-[10px] text-wine font-bold shadow-md">
-                            \${ev.id}
+
+            container.innerHTML = royalEventsData.map((ev, idx) => {
+                const isEven = idx % 2 === 0;
+                const isFlipped = !!flippedCards[ev.id];
+                const googleCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(ev.name + " - Shreyas & Damini Wedding")}&details=${encodeURIComponent(ev.description)}&location=${encodeURIComponent(ev.venue)}`;
+
+                return `
+                    <div class="relative flex flex-col md:flex-row items-center ${isEven ? 'md:flex-row-reverse' : ''} group">
+                        
+                        <div class="absolute left-6 sm:left-1/2 transform -translate-x-1/2 w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-ivory border-2 border-gold flex items-center justify-center shadow-[0_0_20px_rgba(182,154,98,0.5)] z-20 group-hover:scale-110 transition-transform">
+                            ${ev.svgIcon}
                         </div>
 
-                        <div onclick="toggleFlip(\${ev.id})" class="card-inner \${isFlipped ? 'flipped' : ''} relative cursor-pointer w-full min-h-[220px] rounded-xs shadow-md border border-gold/40">
-                            <div class="card-front absolute inset-0 bg-charcoal p-4 rounded-xs flex flex-col justify-between overflow-hidden">
-                                <img src="\${ev.image}" class="absolute inset-0 w-full h-full object-cover opacity-45">
-                                <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/50 to-transparent"></div>
-                                <div class="relative z-10 flex justify-between items-center text-[9px]">
-                                    <span class="bg-wine text-ivory px-2 py-0.5 rounded-xs border border-gold/30">\${ev.date}</span>
-                                    <span class="bg-champagne text-wine font-bold px-2 py-0.5 rounded-xs uppercase">\${ev.time}</span>
-                                </div>
-                                <div class="relative z-10 my-auto">
-                                    <h3 class="font-serif text-xl text-champagne">\${ev.name}</h3>
-                                </div>
-                                <div class="relative z-10 text-[9px] text-gold flex justify-between items-center border-t border-gold/30 pt-2">
-                                    <span>Tap for Details</span>
-                                    <span>🔄 Flip</span>
-                                </div>
-                            </div>
+                        <div class="w-full pl-16 sm:pl-20 md:w-1/2 md:pl-0 ${isEven ? 'md:pr-16' : 'md:pl-16'} card-perspective">
+                            <div 
+                                onclick="toggleCardFlip(${ev.id})"
+                                class="card-inner ${isFlipped ? 'flipped' : ''} relative cursor-pointer w-full min-h-[380px] sm:min-h-[420px] rounded-xs shadow-2xl transition-all"
+                            >
+                                <div class="card-front absolute inset-0 rounded-xs overflow-hidden border-2 border-gold/50 bg-charcoal flex flex-col justify-between p-6 sm:p-7">
+                                    <img src="${ev.image}" alt="${ev.name}" class="absolute inset-0 w-full h-full object-cover opacity-60 sm:opacity-50 group-hover:scale-105 transition-transform duration-700">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-charcoal/95 via-charcoal/60 to-charcoal/30"></div>
 
-                            <div class="card-back absolute inset-0 bg-ivory p-4 rounded-xs text-charcoal flex flex-col justify-between border border-gold">
-                                <div>
-                                    <h3 class="font-serif text-lg text-wine border-b border-gold/30 pb-1">\${ev.name}</h3>
-                                    <p class="text-[11px] text-charcoal/90 mt-2">\${ev.desc}</p>
-                                    <p class="text-[10px] font-semibold text-wine mt-2">👗 Dress Code: <span class="font-normal">\${ev.attire}</span></p>
+                                    <div class="relative z-10 flex flex-wrap items-center justify-between gap-2">
+                                        <span class="text-[10px] sm:text-xs font-bold tracking-[0.2em] text-ivory bg-wine px-3 py-1.5 rounded-xs shadow-sm border border-gold/40">
+                                            📅 ${ev.date}
+                                        </span>
+                                        <span class="text-[10px] sm:text-[11px] font-bold tracking-[0.15em] text-wine bg-champagne px-2.5 py-1.5 rounded-xs uppercase border border-gold/30">
+                                            ⏰ ${ev.timeLabel}
+                                        </span>
+                                    </div>
+
+                                    <div class="relative z-10 space-y-2 my-auto">
+                                        <h3 class="font-serif text-2xl sm:text-4xl text-champagne font-light">
+                                            ${ev.name}
+                                        </h3>
+                                        <p class="font-serif italic text-sm sm:text-base text-gold font-medium">
+                                            "${ev.subtitle}"
+                                        </p>
+                                    </div>
+
+                                    <div class="relative z-10 pt-3 border-t border-gold/30 flex items-center justify-between text-[11px] sm:text-xs text-ivory/90 uppercase tracking-widest font-semibold">
+                                        <span class="flex items-center gap-1.5 truncate max-w-[65%]"><i class="fa-solid fa-location-dot text-gold"></i> ${ev.venue.split(',')[0]}</span>
+                                        <span class="text-gold flex items-center gap-1 shrink-0">Tap to Flip <i class="fa-solid fa-rotate"></i></span>
+                                    </div>
                                 </div>
-                                <button onclick="event.stopPropagation(); toggleFlip(\${ev.id})" class="w-full py-1.5 bg-wine text-ivory text-[9px] uppercase tracking-wider rounded-xs border border-gold">
-                                    Flip Back
-                                </button>
+
+                                <div class="card-back absolute inset-0 rounded-xs overflow-hidden border-2 border-gold bg-ivory p-6 sm:p-7 flex flex-col justify-between text-charcoal shadow-2xl">
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between border-b border-gold/30 pb-2">
+                                            <span class="text-[10px] uppercase tracking-[0.2em] text-gold font-bold">EVENT EXPERIENCE</span>
+                                            <span class="font-serif text-wine italic text-xs sm:text-sm">Shreyas & Damini</span>
+                                        </div>
+
+                                        <h3 class="font-serif text-xl sm:text-2xl text-wine">${ev.name} Details</h3>
+                                        <p class="font-sans text-xs sm:text-sm text-charcoal/90 leading-relaxed">
+                                            ${ev.description}
+                                        </p>
+
+                                        <div class="bg-champagne/40 p-3 rounded-xs border border-gold/30 space-y-1 text-xs">
+                                            <p class="font-semibold text-wine"><i class="fa-solid fa-shirt text-gold me-1"></i> Dress Code: <span class="font-normal text-charcoal">${ev.attire}</span></p>
+                                            <p class="font-semibold text-wine"><i class="fa-solid fa-location-dot text-gold me-1"></i> Venue: <span class="font-normal text-charcoal">${ev.venue}</span></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="pt-4 border-t border-gold/30 flex items-center gap-3">
+                                        <a href="${googleCalUrl}" target="_blank" rel="noreferrer" onclick="event.stopPropagation()" class="flex-1 py-2.5 bg-wine text-ivory text-[11px] sm:text-xs uppercase tracking-widest font-medium text-center rounded-xs border border-gold hover:bg-wine/90 shadow-sm transition-all">
+                                            <i class="fa-regular fa-calendar-plus text-gold me-1"></i> Calendar
+                                        </a>
+                                        <button onclick="event.stopPropagation(); toggleCardFlip(${ev.id})" class="px-4 py-2.5 bg-charcoal text-champagne text-[11px] sm:text-xs uppercase tracking-wider rounded-xs border border-gold/40 hover:bg-charcoal/90">
+                                            Flip Back
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
+                        <div class="hidden md:block md:w-1/2"></div>
                     </div>
-                \`;
+                `;
             }).join('');
         }
 
-        function toggleFlip(id) {
-            flipped[id] = !flipped[id];
-            renderTimeline();
+        function toggleCardFlip(id) {
+            flippedCards[id] = !flippedCards[id];
+            renderRoyalTimeline();
         }
 
         function shareWhatsApp() {
-            window.open('https://wa.me/?text=Namaste!%20Join%20us%20for%20Shreyas%20%26%20Damini%27s%20Wedding.', '_blank');
+            const text = encodeURIComponent("Namaste! We warmly invite you to celebrate the wedding of Shreyas & Damini on 29th January 2027 in Jaipur. View our invitation here: " + window.location.href);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
         }
 
         function updateTimer() {
             const target = new Date("2027-01-29T10:30:00+05:30").getTime();
-            const diff = target - new Date().getTime();
+            const now = new Date().getTime();
+            const diff = target - now;
+
             if (diff > 0) {
                 document.getElementById('timerDays').textContent = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
                 document.getElementById('timerHours').textContent = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
@@ -699,11 +703,12 @@
         }
         setInterval(updateTimer, 1000);
 
+        // INITIALIZATION
         document.addEventListener('DOMContentLoaded', () => {
-            renderTimeline();
+            renderRoyalTimeline();
             updateTimer();
 
-            // Check if already opened in current session
+            // Session check for returning visitors
             if (sessionStorage.getItem('sd_wedding_opened') === 'true') {
                 const envOverlay = document.getElementById('envelopeOverlay');
                 if (envOverlay) envOverlay.style.display = 'none';
@@ -716,68 +721,6 @@
 
             document.getElementById('audioToggleBtn').addEventListener('click', () => audioEngine.toggle());
         });
-    <\/script>
-</body>
-</html>`;
-
-        // DEVICE SIMULATOR LOGIC
-        const devices = {
-            iphone15: { width: 393, height: 852, notchWidth: 'w-28', notchHeight: 'h-7', label: 'iPhone 15 Pro' },
-            pixel8: { width: 412, height: 915, notchWidth: 'w-8', notchHeight: 'h-8', label: 'Pixel 8' },
-            s24: { width: 360, height: 780, notchWidth: 'w-6', notchHeight: 'h-6', label: 'Galaxy S24' }
-        };
-
-        let currentDevice = 'iphone15';
-        let isLandscape = false;
-
-        function setDevice(deviceKey) {
-            currentDevice = deviceKey;
-            ['iphone15', 'pixel8', 's24'].forEach(key => {
-                const btn = document.getElementById(`btn-${key}`);
-                if (key === deviceKey) {
-                    btn.className = "px-3 py-1.5 rounded-md font-medium text-gold bg-wine border border-gold/40 transition-all flex items-center gap-1.5 cursor-pointer shadow-sm";
-                } else {
-                    btn.className = "px-3 py-1.5 rounded-md font-medium text-ivory/70 hover:text-gold transition-all flex items-center gap-1.5 cursor-pointer";
-                }
-            });
-            updatePhoneFrame();
-        }
-
-        function toggleOrientation() {
-            isLandscape = !isLandscape;
-            document.getElementById('orientationLabel').textContent = isLandscape ? 'Landscape' : 'Portrait';
-            updatePhoneFrame();
-        }
-
-        function updatePhoneFrame() {
-            const dev = devices[currentDevice];
-            const casing = document.getElementById('phoneCasing');
-            const dimBadge = document.getElementById('dimBadge');
-
-            let targetWidth = isLandscape ? dev.height : dev.width;
-            let targetHeight = isLandscape ? dev.width : dev.height;
-
-            casing.style.width = `${targetWidth}px`;
-            casing.style.height = `${targetHeight}px`;
-
-            dimBadge.textContent = `${targetWidth} × ${targetHeight} px`;
-        }
-
-        function updateClock() {
-            const now = new Date();
-            const hrs = String(now.getHours()).padStart(2, '0');
-            const mins = String(now.getMinutes()).padStart(2, '0');
-            document.getElementById('clockDisplay').textContent = `${hrs}:${mins}`;
-        }
-
-        // INITIALIZE ON LOAD
-        window.onload = function() {
-            const iframe = document.getElementById('previewFrame');
-            iframe.srcdoc = weddingAppSrc;
-            updatePhoneFrame();
-            updateClock();
-            setInterval(updateClock, 10000);
-        };
     </script>
 </body>
 </html>
